@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="AngularApp">
+<head>
+	<title>Angular Example</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+	<script>
+		var myapp = angular.module("AngularApp", []);
+		myapp.controller("UserController", function($scope) {
+			$scope.Session = [
+				{	'id' : 1, 
+					'userName' : "somashree", 
+					'sessionTimings' : {'startTime' : "2016-05-06T10:05:05.035Z",
+										'endTime' : "2016-05-06T12:05:15.035Z"}
+				},
+				{	'id' : 2, 
+					'userName' : "rony", 
+					'sessionTimings' : {'startTime' : "2012-01-08T09:05:05.035Z",
+										'endTime' : "2012-01-08T09:06:10.035Z"}
+				},
+				{	'id' : 3, 
+					'userName' : "debjit", 
+					'sessionTimings' : {'startTime' : "2013-12-20T09:05:05.035Z",
+										'endTime' : "2013-12-20T09:10:25.125Z"}
+				}
+			];
+		});
+		
+		myapp.filter("duration", function(){
+			return function(session){
+				var start_time = new Date(session.startTime);
+				var end_time = new Date(session.endTime);
+				
+				return (Math.abs(start_time.getTime() - end_time.getTime()) / 1000) + " seconds";
+			}
+		});
+	</script>
+</head>
+<body>
+
+<div class="container-fluid" ng-controller="UserController">
+	
+	<h3>User's session details: </h3>
+	<div ng-repeat="session in Session">
+		<p><strong>Session id: </strong>{{session.id}}</p>
+		<p><strong>User name: </strong>{{session.userName | uppercase}}</p>
+		<p><strong>Session start time: </strong>{{session.sessionTimings.startTime | date : 'MMM d, y h:mm:ss a'}}</p>
+		<p><strong>Session end time: </strong>{{session.sessionTimings.endTime | date : 'MMM d, y h:mm:ss a'}}</p>
+		<p><strong>Session duration: </strong>{{session.sessionTimings | duration}}</p>
+		<hr/>
+	</div>
+</div>
+
+</body>
+</html>
+
